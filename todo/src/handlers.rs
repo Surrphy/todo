@@ -48,7 +48,7 @@ pub fn list(persy_db: Persy) -> String {
 
     for (id, mut content) in persy_db.scan("todos").unwrap() {
         let done = content.pop().unwrap() != 0;
-        result += &format!("{}. {} [{}]\n", id, std::str::from_utf8(&content).unwrap(), if done {"X"} else {" "});
+        result += &format!("{} [{}] {}\n", id, if done {"X"} else {" "}, std::str::from_utf8(&content).unwrap());
     }
 
     result
