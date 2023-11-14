@@ -1,3 +1,4 @@
+use anyhow::Result;
 use config::Config;
 use cli::Commands::{*};
 use handlers::{add, list, change_done, delete};
@@ -6,7 +7,7 @@ pub mod cli;
 pub mod config;
 pub mod handlers;
 
-pub fn handler(config: Config) -> String {
+pub fn handler(config: Config) -> Result<String> {
 
     let result = match config.cli.command {
         Add { desc, done } => add(config.db, desc, done),
