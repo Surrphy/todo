@@ -1,6 +1,6 @@
 use std::{env, path::PathBuf};
 
-use anyhow::{Error, anyhow, Result};
+use anyhow::{anyhow, Result};
 
 use persy::{Persy, Config as PersyConfig, CreateError, PE::PE, CreateSegmentError};
 
