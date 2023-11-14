@@ -13,9 +13,10 @@ pub struct Config {
 }
 
 impl Config {
-    pub fn new(cli: CLI) -> Result<Config>{
+    pub fn new(cli: CLI) -> Result<Config> {
         let username = env::var("USER").unwrap();
-        let persy_path = PathBuf::from(format!("{}/todo.db", env::var("TODO_CONFIG").unwrap()));
+
+        let (_config_path, persy_path) = get_config_path()?;
 
         if let Err(PE(CreateError::Generic(err))) = Persy::create(&persy_path) {
             return Err(anyhow!(err).context(format!("Error while creating persy db at {persy_path:?}")))
@@ -45,4 +46,14 @@ impl Config {
 
         Ok(())
     }
+}
+
+fn get_config_path() -> Result<(PathBuf, PathBuf)> {
+    let config_path = match env::var("TODO_CONFIG") {
+        Ok(v) => v,
+        Err(env::VarError::NotPresent) => format!("{}/.config/todo", env::var("HOME").unwrap()),
+        Err(err) => return Err(anyhow!(err).context("TODO_CONFIG env var is not in unicode"))
+    };
+
+    Ok((PathBuf::from(config_path.clone()), PathBuf::from(format!("{}/todo.db", config_path))))
 }
