@@ -14,7 +14,9 @@ pub struct Config {
 
 impl Config {
     pub fn new(cli: CLI) -> Result<Config> {
-        let username = env::var("USER").unwrap();
+        let Ok(username) = env::var("USER") else {
+            return Err(anyhow!("USER env var not set"))
+        };
 
         let (_config_path, persy_path) = get_config_path()?;
 
@@ -22,7 +24,7 @@ impl Config {
             return Err(anyhow!(err).context(format!("Error while creating persy db at {persy_path:?}")))
         }
 
-        let persy_db = Persy::open(persy_path, PersyConfig::new()).unwrap();
+        let persy_db = Persy::open(persy_path, PersyConfig::new())?;
 
         Ok(
             Config {
@@ -55,5 +57,5 @@ fn get_config_path() -> Result<(PathBuf, PathBuf)> {
         Err(err) => return Err(anyhow!(err).context("TODO_CONFIG env var is not in unicode"))
     };
 
-    Ok((PathBuf::from(config_path.clone()), PathBuf::from(format!("{}/todo.db", config_path))))
+    Ok((PathBuf::from(config_path.clone()), PathBuf::from(format!("{config_path}/todo.db"))))
 }
