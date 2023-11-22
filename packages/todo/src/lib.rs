@@ -9,7 +9,9 @@ pub mod handlers;
 
 /// Get cli config and run specified subcomands
 ///
-/// # Errors: Return error from handlers (`PersyError`)
+/// # Errors
+///
+/// Return error from handlers (`PersyError`)
 pub fn handler(config: Config) -> Result<String> {
     match config.cli.command {
         Add { desc, done } => add(&config.db, &desc, done),

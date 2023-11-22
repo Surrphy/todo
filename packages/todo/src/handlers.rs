@@ -8,7 +8,9 @@ use persy::{Persy, PersyId};
 ///
 /// Todo stores descriptions as a vector of bytes, last one being "done" byte
 ///
-/// # Errors: Returns `PersyError`
+/// # Errors 
+///
+/// Returns `PersyError`
 pub fn add(persy_db: &Persy, desc: &str, done: bool) -> Result<String> {
     let mut tx = persy_db.begin()?;
 
@@ -36,7 +38,9 @@ pub fn add(persy_db: &Persy, desc: &str, done: bool) -> Result<String> {
 ///
 /// Todo stores descriptions as a vector of bytes, last one being "done" byte
 ///
-/// # Errors: Returns `PersyError`
+/// # Errors
+///
+/// Returns `PersyError`
 pub fn change_done(persy_db: &Persy, index: &str, done: bool) -> Result<String> {
     let mut data = get_record(persy_db, index)?;
     let len = data.len();
@@ -45,7 +49,7 @@ pub fn change_done(persy_db: &Persy, index: &str, done: bool) -> Result<String> 
 
     let mut tx = persy_db.begin()?;
 
-    tx.update("todos", &PersyId::from_str(index).unwrap(), &data)?;
+    tx.update("todos", &PersyId::from_str(index)?, &data)?;
 
     let prepared = tx.prepare()?;
     prepared.commit()?;
@@ -57,7 +61,9 @@ pub fn change_done(persy_db: &Persy, index: &str, done: bool) -> Result<String> 
 ///
 /// Todo stores descriptions as a vector of bytes, last one being "done" byte
 ///
-/// # Errors: Returns `PersyError`
+/// # Errors
+///
+/// Returns `PersyError`
 pub fn delete(persy_db: &Persy, index: &str) -> Result<String> {
     let mut tx = persy_db.begin()?;
 
@@ -75,7 +81,9 @@ pub fn delete(persy_db: &Persy, index: &str) -> Result<String> {
 ///
 /// Todo stores descriptions as a vector of bytes, last one being "done" byte
 ///
-/// # Errors: Returns `PersyError`
+/// # Errors
+///
+/// Returns `PersyError`
 pub fn list(persy_db: &Persy) -> Result<String> {
     let mut result = String::new();
 

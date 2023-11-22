@@ -13,6 +13,15 @@ pub struct Config {
 }
 
 impl Config {
+    /// Generate new config from cli information
+    ///
+    /// # Errors
+    ///
+    /// Errors if:
+    ///   - config path can't be initialized
+    ///   - USER env var isn't set
+    ///   - Persy encounters a generic error while creating db
+    ///   - Persy can't open database
     pub fn new(cli: CLI) -> Result<Config> {
         let Ok(username) = env::var("USER") else {
             return Err(anyhow!("USER env var not set"))
@@ -35,6 +44,11 @@ impl Config {
         )
     }
 
+    /// Create all required segments if they don't already exist
+    ///
+    /// # Errors
+    ///
+    /// Errors from begining and commiting transactions
     pub fn prepare_database(&self) -> Result<()> {
         let mut tx = self.db.begin()?;
 
