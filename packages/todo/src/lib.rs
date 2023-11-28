@@ -5,6 +5,7 @@ use handlers::{add, list, change_done, delete};
 
 pub mod cli;
 pub mod config;
+pub mod errors;
 pub mod handlers;
 
 /// Get cli config and run specified subcomands
