@@ -5,15 +5,19 @@ Simple software for creating todo lists. It uses one-file database (PersyDB) to 
 
 ### Subcommands
 
-- list
+- `todo list`
 ![list usage](img/list.png) 
 
-- add
+- `todo add`
 ![add usage](img/add.png) 
 
-- do / undo
+- `todo do / undo`
 ![do usage](img/do.png) 
 ![undo usage](img/undo.png) 
 
-- delete
+- `todo delete`
 ![delete usage](img/delete.png) 
+
+### Configuration
+
+For now, the only thing that can be configured is persydb path. By default it will try to default to `~/.config/todo/`. To change this behaviour you can set `TODO_CONFIG` env variable and point it to your desired path.
