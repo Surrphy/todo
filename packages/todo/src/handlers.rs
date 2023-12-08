@@ -96,7 +96,7 @@ pub fn list(persy_db: &Persy) -> Result<String> {
             return Err(anyhow!("Description was not formatted correctly"))
         };
 
-        result += &format!("{} [{}] {}\n", id, if done == 0 {" "} else {"X"}, desc);
+        result += &format!("\x1b[38;2;219;7;61m{} \x1b[38;2;219;165;7m[{}]\x1b[0m {}\n", id, if done == 0 {" "} else {"X"}, desc);
     }
 
     Ok(result)
